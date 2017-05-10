@@ -5,7 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     target: 'electron',
-    entry: ['./src/renderer/index.jsx'], //入口
+    entry: ['./src/renderer/index.js'], //入口
     output: { //输出
         path: __dirname,
         publicPath: '../',
