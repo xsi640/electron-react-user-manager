@@ -7,7 +7,7 @@ export default function mainReducer(state = initialState, action) {
         case 'LIST_WORK':
             return {...state, loading: true}
         case 'DELETE':
-            return {...state, deletedId: action.payload.data, loading: false}
+            return {...state, deletedId: action.payload, loading: false}
         case 'DELETE_WORK':
             return {...state, loading: true}
         default:

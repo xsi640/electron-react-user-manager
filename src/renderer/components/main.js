@@ -25,15 +25,17 @@ class Main extends Component {
         if (typeof nextProps.deletedId !== 'undefined') {
             for (let id of nextProps.deletedId) {
                 let obj = null;
-                for(let o of this.state.data){
-                    if(o.id === id) {
+                for (let o of this.state.data) {
+                    if (o.id === id) {
                         obj = o;
                         break;
                     }
                 }
                 if (obj !== null)
-                    this.state.data.delete(obj)
+                    this.state.data.splice(this.state.data.indexOf(obj), 1)
             }
+            this.state.selectedRowKeys = [];
+            this.forceUpdate();
         }
     }
 
@@ -50,7 +52,21 @@ class Main extends Component {
     }
 
     closePersonModal(person) {
-        this.props.list();
+        if(person != null){
+            let obj = null;
+            for (let o of this.state.data) {
+                if (o.id === id) {
+                    obj = o;
+                    break;
+                }
+            }
+            if(obj == null){
+                this.state.data.push(person);
+            }else{
+                this.state.data[this.state.indexOf(obj)] = person;
+            }
+            this.forceUpdate();
+        }
     }
 
     onSelectChange(selectedRowKeys) {
