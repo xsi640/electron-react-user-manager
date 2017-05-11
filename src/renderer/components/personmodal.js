@@ -37,6 +37,8 @@ class PersonModal extends Component {
     }
 
     _savePerson() {
+        if (!this._validInput())
+            return;
         if (this._person === null) {
             let person = {
                 name: this.state.name,
@@ -57,6 +59,22 @@ class PersonModal extends Component {
             }
             this.props.save(person);
         }
+    }
+
+    _validInput() {
+        if (this.state.name === '') {
+            this.setState({error: 'Please Input name.'})
+            return false;
+        }
+        if (this.state.age === '') {
+            this.setState({error: 'Please Input age.'})
+            return false;
+        }
+        if(!/^\d+$/.test(this.state.age)){
+            this.setState({error: 'Input age error.'})
+            return false;
+        }
+        return true;
     }
 
     show(person = null) {

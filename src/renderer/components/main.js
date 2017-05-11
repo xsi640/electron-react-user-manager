@@ -18,6 +18,7 @@ class Main extends Component {
         this.closePersonModal = this.closePersonModal.bind(this)
         this.onSelectChange = this.onSelectChange.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
+        this.handleModify = this.handleModify.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -31,11 +32,11 @@ class Main extends Component {
                         break;
                     }
                 }
-                if (obj !== null)
+                if (obj !== null) {
                     this.state.data.splice(this.state.data.indexOf(obj), 1)
+                }
             }
             this.state.selectedRowKeys = [];
-            this.forceUpdate();
         }
     }
 
@@ -51,11 +52,23 @@ class Main extends Component {
         this.props.delete(this.state.selectedRowKeys)
     }
 
+    handleModify(e){
+        let id = this.state.selectedRowKeys[0];
+        let person = null;
+        for(let p of this.state.data){
+            if(p.id === id){
+                person = p;
+                break;
+            }
+        }
+        this.refs.personModal.getWrappedInstance().show(person)
+    }
+
     closePersonModal(person) {
         if(person != null){
             let obj = null;
             for (let o of this.state.data) {
-                if (o.id === id) {
+                if (o.id === person.id) {
                     obj = o;
                     break;
                 }
@@ -63,9 +76,9 @@ class Main extends Component {
             if(obj == null){
                 this.state.data.push(person);
             }else{
-                this.state.data[this.state.indexOf(obj)] = person;
+                this.state.data[this.state.data.indexOf(obj)] = person;
+                this.forceUpdate();
             }
-            this.forceUpdate();
         }
     }
 
@@ -96,7 +109,7 @@ class Main extends Component {
             <div style={{padding: 20}}>
                 <div style={{marginBottom: 16}}>
                     <Button type="primary" onClick={this.showPersonModal}>Add</Button>
-                    <Button type="primary" disabled={!isSingleSelected}
+                    <Button type="primary" disabled={!isSingleSelected} onClick={this.handleModify}
                             style={{marginLeft: 10}}>Modify</Button>
                     <Button type="primary" disabled={!hasSelected} onClick={this.handleDelete}
                             style={{marginLeft: 10}}>Delete</Button>

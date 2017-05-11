@@ -16,6 +16,7 @@ module.exports = {
         alias: {}, //别名
         extensions: ['.js', '.jsx'] //用于自动处理某些扩展名
     },
+
     module: {
         rules: [
             {
@@ -47,6 +48,11 @@ module.exports = {
                 }
             }
         ]
+    },
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
+        ignored: /node_modules/
     },
     plugins: [
         new webpack.DefinePlugin({

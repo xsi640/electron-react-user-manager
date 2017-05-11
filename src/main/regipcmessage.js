@@ -40,7 +40,7 @@ function regIPCMessage() {
             log.info(`send msg:${message} result:${JSON.stringify(result)}`);
             setTimeout(() => {
                 event.sender.send(message, result);
-            }, 3000)
+            }, 2000)
         });
     }
 }
