@@ -1,6 +1,7 @@
 const {ipcMain} = require('electron')
 const IPCMESSAGE = require('../constipcmessage')
 const Storage = require('./storage')
+const log = require('electron-log')
 
 function regIPCMessage() {
 
@@ -15,9 +16,11 @@ function regIPCMessage() {
     })
 
     _regIPCHandler(IPCMESSAGE.DELETE, (event, args) => {
-        Storage.delete(args);
+        for(let id of args) {
+            Storage.delete(id);
+        }
         Storage.save();
-        return null;
+        return args;
     })
 
     function _regIPCHandler(message, func) {
@@ -35,7 +38,9 @@ function regIPCMessage() {
                 result.error = e.message;
             }
             log.info(`send msg:${message} result:${JSON.stringify(result)}`);
-            event.sender.send(message, result);
+            setTimeout(() => {
+                event.sender.send(message, result);
+            }, 3000)
         });
     }
 }

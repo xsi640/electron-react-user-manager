@@ -1,4 +1,5 @@
 const fs = require('fs');
+const log = require('electron-log')
 
 class Storage {
 
@@ -23,6 +24,7 @@ class Storage {
             dbInfo.id = this._id;
             this._data.push(dbInfo);
         }
+        return dbInfo;
     }
 
     delete(id) {
@@ -30,7 +32,7 @@ class Storage {
         if (typeof obj !== 'undefined') {
             let index = this._data.indexOf(obj);
             if (index >= 0)
-                this._data.remove(index);
+                this._data.splice(index, 1);
         }
     }
 
@@ -51,9 +53,9 @@ class Storage {
 
     _read() {
         try {
-            let data = fs.readFileSync(this._path, {encoding: 'utf8'}).toString();
+            let data = JSON.parse(fs.readFileSync(this._path, {encoding: 'utf8'}).toString());
             if (data) {
-                for (let item of this._data) {
+                for (let item of data) {
                     this._data.push(item);
                     if (this._id < item.id) {
                         this._id = item.id;
@@ -61,6 +63,7 @@ class Storage {
                 }
             }
         } catch (err) {
+            log.error(err)
         }
     }
 
