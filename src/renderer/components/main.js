@@ -77,8 +77,8 @@ class Main extends Component {
                 this.state.data.push(person);
             }else{
                 this.state.data[this.state.data.indexOf(obj)] = person;
-                this.forceUpdate();
             }
+            this.forceUpdate();
         }
     }
 
